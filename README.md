@@ -21,7 +21,7 @@ swayidle swaylock swaynag dex network-manager-applet alacritty rofi-lbonn-waylan
 ### Arch linux
 Pacman Dependencies
 ```bash
-sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu swaynag autotiling awww
+sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu swaynag autotiling awww ttf-font-awesome playerctl pavucontrol btop 
 ```
 AUR Dependencies
 ```bash
