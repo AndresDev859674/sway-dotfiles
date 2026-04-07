@@ -84,6 +84,9 @@ Now in your terminal, Put `rofi-theme-selector`
 search andrewdf1 or simple-andrewdf1
 The one you like best
 
+## Updating
+Follow the previous steps, but again, put the folders with the new changes in their directories, etc.
+
 ## Ending
 Now Log-off or Restart to Log-in into Sway, NOW enjoy!
 
