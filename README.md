@@ -90,9 +90,25 @@ Now Log-off or Restart to Log-in into Sway, NOW enjoy!
 #### I don't have confirmation if this manual installation/setup works properly.
 
 # FAQ
-1. **So, Where the Keybinds**
+1. **So, Where the Keybinds?**
    
    Go to the Config button of the bar and use Complex Keybinds Menu For Sway, Here there's all the Keybinds, BUT, this is a complex       menu, for now this dotfiles does not include a easy keybinds menu
+
+2. **How to get that console appearance shown in the images?**
+   
+   No, you need to install your bash or zsh or fish themes. If your terminal already looks good, you shouldn't have much of a problem.
+
+3. **Stability?**
+   
+   I'm focusing on that, but on my personal system, my dotfiles seem to be quite stable. The errors could be from your Linux system or packages.
+
+4. **It's actually focused on performance?**
+   
+   If so, having a junk PC I can see that the performance is achievable, and it's quite good compared to heavier KDE or Some Heavy WM like Hyprland. Classicube reaches 400 FPS, and other games like Half-Life 2 reach up to 90 FPS.
+
+5. **How to disable Blur?**
+   
+   Comment `#` the blur enable in the sway config `~/.config/sway/config`, Like this `# blur enable`
     
 # Credits    
 newmanls for the Themes collection
