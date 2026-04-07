@@ -11,6 +11,14 @@ My Personal and useful and Lightweight Dotfiles, Also you can use with KDE and S
 > This Dotfiles does not include install script, so you have to install manually
 >
 
+# Screenshots
+| | |
+| --- | --- |
+| <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/d571ac06-22b2-4e99-a1a0-d47cb52c49f4" /> | <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/56db0ae0-3fe8-4a0e-bbbf-aee58c29ab51" /> | <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/804e5519-2342-4208-99c9-143ce1b835b6" /> | 
+| <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/0c914879-b156-49f0-b91e-61c9bd8cb986" /> | <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/9b0121f1-6262-4f00-aea0-81955706fa71" /> |
+ <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/5c3a82cf-498d-4e00-81fb-ec526cc09c47" /> | <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/1d96eec8-8886-4962-a130-822be25cf074" /> |
+
+
 # Setup
 First install the Dependencies, and make sure you are en KDE, i recommend this Dotfiles with KDE installed
 ## Dependencies
@@ -59,5 +67,10 @@ Now Log-off or Restart to Log-in into Sway, NOW enjoy!
 
 #### I don't have confirmation if this setup works properly.
 
+# FAQ
+1. **So, Where the Keybinds**
+   
+   Go to the Config button of the bar and use Complex Keybinds Menu For Sway, Here there's all the Keybinds, BUT, this is a complex       menu, for now this dotfiles does not include a easy keybinds menu
+    
 # Credits    
 newmanls for the Themes collection
