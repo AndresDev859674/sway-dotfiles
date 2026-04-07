@@ -76,3 +76,5 @@ Now Log-off or Restart to Log-in into Sway, NOW enjoy!
     
 # Credits    
 newmanls for the Themes collection
+
+# I3 VERSION REPO or BRANCH COMING SOON
