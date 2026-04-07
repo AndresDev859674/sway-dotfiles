@@ -20,11 +20,31 @@ My Personal and useful and Lightweight Dotfiles, Also you can use with KDE and S
 
 <img width="1280" height="800" alt="image" src="https://github.com/user-attachments/assets/af0f4a8a-02bb-43fb-be62-3cb513c5eec5" />
 
+# Supported Distros
+| Distribution | Dotfiles Support | Status |
+| :--- | :---: | :---: |
+| ![Arch](https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge) | ✅ | ✅ |
+| ![Debian](https://img.shields.io/badge/Debian-D70A53?style=for-the-badge&logo=debian&logoColor=white) | ❓ | ❓ |
+| ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white) | ❓ | ❓ |
+| ![Fedora](https://img.shields.io/badge/Fedora-294172?style=for-the-badge&logo=fedora&logoColor=white) | ❓ | ❓ |
+| ![openSUSE](https://img.shields.io/badge/openSUSE-%2364B345?style=for-the-badge&logo=openSUSE&logoColor=white) | ❓ | ❓ |
+| ![NixOS](https://img.shields.io/badge/NIXOS-5277C3.svg?style=for-the-badge&logo=NixOS&logoColor=white) | ❓ | ❓ |
+| ![Alpine Linux](https://img.shields.io/badge/Alpine_Linux-0D597F?style=for-the-badge&logo=alpine-linux&logoColor=white) | ❓ | ❓ |
+| ![Gentoo](https://img.shields.io/badge/Gentoo-9B54FF?style=for-the-badge&logo=gentoo&logoColor=white) | ❓ | ❓ |
+| ![FreeBSD](https://img.shields.io/badge/FreeBSD-CF2122?style=for-the-badge&logo=freebsd&logoColor=white) | ❓ | ❓ |
+
+### Legend
+
+| Icon | Meaning |
+|:----:|:-------------------|
+| **✅** | **Confirmed Working:** Tested and fully supported. |
+| **❓** | **Should Work / Pending Confirmation:** Expected to work (often based on its parent distribution), but testing is pending or needs confirmation. or Also, It might not work. |
+| **❌** | **Not Supported:** Confirmed not to work or not supported by the dotfiles. |
 
 # Setup
 First install the Dependencies, and make sure you are en KDE, i recommend this Dotfiles with KDE installed
 ## Dependencies
-Only tested in Arch linux, in CachyOS and EndeavourOS should work, If you are another distro, install the dependencies that are here
+Only tested in **Arch linux**, in **CachyOS** and **EndeavourOS** should work, If you are another distro, install the dependencies that are here
 ```bash
 swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop 
 ```
