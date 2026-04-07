@@ -114,6 +114,10 @@ Now Log-off or Restart to Log-in into Sway, NOW enjoy!
    
    No, as with the previous FAQs and also on the PC it was tested on, there were no performance issues. It's very lightweight, although I recommend you try it yourself to see the performance for yourself.
     
+7. **How Really works? The Menus Etc**
+   
+   Using only Shell files for menus, i3status-rust for the bar blocks, and others, we use Shell because it is efficient and more convenient.
+    
 # Credits    
 newmanls for the Themes collection
 
