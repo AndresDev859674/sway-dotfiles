@@ -3,6 +3,8 @@
 # andrew(sway)dotfiles
 My Personal and useful and Lightweight Dotfiles, Also you can use with KDE and Sway in the same System!
 
+#### TESTED IN A PC FROM 2011!!!! Intel i3 2120 with integrated graphics
+
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 
 > [!WARNING]
