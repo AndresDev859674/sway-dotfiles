@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Path to your i3 configuration
+CONFIG_FILE="$HOME/.config/i3/config"
+
+# The specific line to toggle
+TARGET="exec --no-startup-id picom -b"
+
+# Check if the config file exists
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Error: Configuration file not found at $CONFIG_FILE"
+    exit 1
+fi
+
+# Check if the line is already commented
+if grep -q "^# $TARGET" "$CONFIG_FILE"; then
+    # Uncomment: Remove the '# ' from the start
+    sed -i "s|^# $TARGET|$TARGET|" "$CONFIG_FILE"
+    echo "Picom has been ENABLED (uncommented)."
+else
+    # Comment: Add '# ' to the start
+    sed -i "s|^$TARGET|# $TARGET|" "$CONFIG_FILE"
+    echo "Picom has been DISABLED (commented)."
+fi
+
+# Reload i3 configuration to apply changes immediately
+i3-msg reload

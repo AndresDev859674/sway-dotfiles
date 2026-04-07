@@ -1,0 +1,47 @@
+* {
+all: unset; /* Volvemos a usarlo pero con cuidado */
+transition: 300ms cubic-bezier(0.05, 0.7, 0.1, 1);
+}
+
+window {
+	background-color: rgba(251, 241, 199, 0.85); /* Gruvbox bg0_h */
+}
+
+/* Contenedor de cada opción */
+button {
+	background-color: #fbf1c7; /* bg */
+	border: 3px solid #ebdbb2; /* bg1 */
+	color: #3c3836;            /* fg0 */
+	border-radius: 30px;
+	margin: 15px;
+	background-repeat: no-repeat;
+	background-position: center 35%; /* Sube el icono para dejar espacio al texto */
+	background-size: 25%;
+}
+
+/* Efectos de interacción */
+button:focus,
+button:active,
+button:hover {
+	background-color: #ebdbb2; /* bg1 */
+	border-color: #af3a03;     /* orange */
+	color: #9d0006;            /* red */
+	box-shadow: 0 0 15px rgba(175, 58, 3, 0.2);
+}
+
+/* Personalización del texto (los "label" del layout) */
+label {
+	font-family: "JetBrainsMono Nerd Font", "Ubuntu", sans-serif;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #3c3836;
+	margin-top: 100px; /* Empuja el texto hacia la parte inferior del botón */
+}
+
+/* Vinculación de iconos con los labels del layout */
+#lock      { background-image: image(url("/usr/share/wlogout/icons/lock.png")); }
+#hibernate { background-image: image(url("/usr/share/wlogout/icons/hibernate.png")); }
+#logout    { background-image: image(url("/usr/share/wlogout/icons/logout.png")); }
+#shutdown  { background-image: image(url("/usr/share/wlogout/icons/shutdown.png")); }
+#suspend   { background-image: image(url("/usr/share/wlogout/icons/suspend.png")); }
+#reboot    { background-image: image(url("/usr/share/wlogout/icons/reboot.png")); }

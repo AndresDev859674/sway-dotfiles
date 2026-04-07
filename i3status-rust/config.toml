@@ -1,0 +1,79 @@
+[theme]
+theme = "gruvbox-light"
+
+# [theme.overrides]
+# Example: redefine `idle` colors
+# idle_bg = ""
+# idle_fg = "#3c3836"
+
+[theme.overrides]
+idle_bg = ""
+idle_fg = "#3c3836"
+
+[icons]
+icons = "awesome6" # Requiere ttf-font-awesome instalado
+
+[[block]]
+block = "memory"
+format = " $icon $mem_used / $mem_total "
+interval = 10
+
+[[block]]
+block = "disk_space"
+path = "/"
+info_type = "available"
+interval = 60
+format = " $icon $available "
+
+[[block]]
+block = "music"
+format = " {$icon $combo.str(max_w:25) |  Nothing} "
+[[block.click]]
+button = "left"
+cmd = "playerctl play-pause"
+[[block.click]]
+button = "right"
+cmd = "playerctl next"
+[[block.click]]
+button = "wheel_up"
+cmd = "playerctl volume 0.05+"
+[[block.click]]
+button = "wheel_down"
+cmd = "playerctl volume 0.05-"
+
+[[block]]
+block = "cpu"
+interval = 5
+format = " $icon CPU $utilization "
+[[block.click]]
+button = "left"
+cmd = "alacritty -e btop"
+
+[[block]]
+block = "sound"
+step_width = 5
+[[block.click]]
+button = "left"
+cmd = "pavucontrol"
+
+[[block]]
+block = "time"
+interval = 1
+format = " $icon $timestamp.datetime(f:'%a %d/%m %I:%M:%S %p') "
+# Tambien puedes remover %S q son segundos, o ponerlo en 24 horas
+
+[[block]]
+block = "custom"
+command = "echo  Proc" # Dato, En versiones nuevas se usa 'command' en vez de 'cycle' para texto simple
+interval = "once"
+[[block.click]]
+button = "left"
+cmd = "~/.config/i3blocks/scripts/process_menu"
+
+[[block]]
+block = "custom"
+command = "echo  Config"
+interval = "once"
+[[block.click]]
+button = "left"
+cmd = "~/.config/i3/scripts/options_menu"

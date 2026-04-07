@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Definimos las opciones
+OPTIONS="Lock For i3
+Lock For Sway
+Suspend
+Logout
+Reboot
+Shutdown
+Force Shutdown
+Force Reboot"
+
+# Configuración de Rofi
+# -location 3 es arriba a la derecha. Ajusta si prefieres otro sitio.
+LAUNCHER="rofi -dmenu -i -p Menu: -width 15 -location 3"
+
+# Capturamos la elección
+CHOICE=$($LAUNCHER <<< "$OPTIONS")
+
+# Función para cerrar aplicaciones suavemente
+close_apps() {
+    i3-msg "[class=\".*\"] kill"
+    sleep 2
+}
+
+# Ejecutamos la acción según la elección
+case "$CHOICE" in
+    "Lock For i3")
+        i3lock --color=111111
+        ;;
+    "Lock For Sway")
+        swaylock
+        ;;
+    "Suspend")
+        systemctl suspend
+        ;;
+    "Logout")
+        i3-msg exit
+        ;;
+    "Reboot")
+        close_apps
+        systemctl reboot
+        ;;
+    "Shutdown")
+        close_apps
+        systemctl poweroff
+        ;;
+    "Force Shutdown")
+        systemctl poweroff -f
+        ;;
+    "Force Reboot")
+        systemctl reboot -f
+        ;;
+    *)
+        exit 0
+        ;;
+esac

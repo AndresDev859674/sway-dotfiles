@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# 1. Definimos los procesos (Top 10 por CPU)
+# Usamos 'ps' para sacar: %CPU, Comando y PID
+OPTIONS=$(ps -eo pcpu,comm,pid --sort=-pcpu | head -n 11 | sed 1d)
+
+# 2. Tu configuración de Lanzador (ajustada a tu estilo)
+LAUNCHER="rofi -dmenu -i -p 'Process (%CPU Comando PID):' -width 30 -location 0"
+
+# 3. Capturamos la elección
+CHOICE=$(echo -e "$OPTIONS" | $LAUNCHER)
+
+# 4. Si el usuario seleccionó algo, extraemos el PID (la última palabra de la línea)
+if [ -n "$CHOICE" ]; then
+    PID=$(echo "$CHOICE" | awk '{print $NF}')
+
+    # Menú de acción para ese PID
+    ACTION=$(echo -e "Kill\nTerminate\nCancel" | rofi -dmenu -p "Action for PID $PID" -width 15)
+
+    case "$ACTION" in
+        Kill) kill -9 "$PID" ;;
+        Terminate) kill -15 "$PID" ;;
+        *) exit 0 ;;
+    esac
+fi

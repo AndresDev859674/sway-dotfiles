@@ -1,0 +1,56 @@
+# Configuración global
+separator_block_width=15
+markup=none
+SCRIPT_DIR=~/.config/i3blocks/scripts/i3blocks-contrib/
+
+[memory]
+label=MEM
+command=free -h | awk '/^Mem:/ {print $3 "/" $2}'
+interval=30
+
+[disk]
+label=HOME
+command=df -h / | awk '/\// {print $4}'
+interval=30
+
+# Definimos una variable para no repetir la ruta
+[date]
+command=COLOR=$(~/.config/i3/scripts/get_color.sh); echo "<span color='$COLOR'>$(~/.config/i3/scripts/calendar.sh)</span>"
+interval=1
+markup=pango
+
+[cpu_usage]
+label=CPU
+# Usamos Pango para aplicar el color dinámico
+command=COLOR=$(~/.config/i3/scripts/get_color.sh); CPU=$(vmstat 1 2 | tail -1 | awk '{print 100 - $15"%"}' ); if [ "$BLOCK_BUTTON" -eq 1 ]; then i3-msg -q exec "alacritty -e btop"; fi; echo "<span color='$COLOR'>$CPU</span>"
+interval=5
+markup=pango
+
+[volume]
+label= VOL
+command=COLOR=$(~/.config/i3/scripts/get_color.sh); VOL=$(amixer get Master | grep -E -o '[0-9]+%' | head -1); if [ "$BLOCK_BUTTON" == "1" ]; then pavucontrol & fi; echo "<span color='$COLOR'>$VOL</span>"
+interval=1
+signal=10
+markup=pango
+
+[shutdown_menu]
+full_text=Shutdown
+command=~/.config/i3blocks/scripts/shutdown_menu
+color=#ff5555
+
+[processes]
+full_text= Proc
+command=~/.config/i3blocks/scripts/process_menu
+color=#00FF00
+
+[options]
+full_text= Config
+command=~/.config/i3/scripts/options_menu
+color=#00FF00
+
+[cava]
+command=~/.config/i3blocks/scripts/cava.sh
+interval=persist
+color=#0090FF
+label=
+

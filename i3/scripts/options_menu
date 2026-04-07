@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Definimos las opciones
+OPTIONS="Complex Keybinds Menu for Sway
+Disable Forever auto-picom
+Change the bar color
+Change Wallpaper
+Select Wallpaper
+Toggle Title bar
+Gaming Mode/Disable Picom
+ScreenShot
+Disable Forever picom
+Open auto-picom
+Rofi Themes"
+
+# Lanzamos Rofi y guardamos el resultado en la variable CHOICE
+# Eliminamos el uso de $LAUNCHER innecesario si ya estamos invocando rofi directamente
+CHOICE=$(echo -e "$OPTIONS" | rofi -dmenu \
+    -i \
+    -p "Options for the Dotfiles" \
+    -mesg "Select an option to configure your environment" \
+    -theme-str 'window { width: 50%; border-radius: 10px; } listview { lines: 15; }' \
+    -markup-rows)
+
+# Si el usuario presiona ESC o cierra el menú, salimos
+if [ -z "$CHOICE" ]; then
+    exit 0
+fi
+
+case "$CHOICE" in
+    "Complex Keybinds Menu for Sway")
+        ~/.config/i3/scripts/keybinds.sh &
+        ;;
+    "Disable Forever auto-picom")
+        ~/.config/i3/scripts/uncomment-autopicom &
+        ;;
+    "Change the bar color")
+        notify-send "Tip" "Better, Press Supr+Alt+C to Change the bar color"
+        ~/.config/i3/toggle_color.sh &
+        ;;
+    "Change Wallpaper")
+        notify-send "Tip" "Better, Press Supr+Alt+W to Change the Wallpaper"
+        ~/.config/i3/wallpaper.sh &
+        ;;
+    "Select Wallpaper")
+        notify-send "Tip" "Better, Press Control+Alt+W to Select the Wallpaper"
+        ~/.config/i3/select_wallpaper.sh &
+        ;;
+    "Toggle Title bar")
+        notify-send "Tip" "Better, Press Supr+T to Toggle Title bar"
+        ~/.config/i3/toggle_borders.sh &
+        ;;
+    "Gaming Mode/Disable Picom")
+        notify-send "Tip" "Better, Press Supr+Alt+G to Toggle Picom"
+        ~/.config/i3/scripts/toggle_picom.sh &
+        ;;
+    "ScreenShot")
+        notify-send "Tip" "Better, Press Impr to Screenshot"
+        ~/.config/i3/scripts/screenshot.sh full &
+        ;;
+    "Disable Forever picom")
+        ~/.config/i3/scripts/uncomment-picom &
+        ;;
+    "Open auto-picom")
+        ~/.config/i3/scripts/auto-picom.sh &
+        ;;
+    "Rofi Themes")
+        rofi-theme-selector &
+        ;;
+    *)
+        exit 0
+        ;;
+esac

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# 1. Obtener estadísticas generales (RAM y CPU total)
+TOTAL_RAM_MB=$(free -m | awk '/^Mem:/{print $2}')
+USED_NOW=$(free -h | awk '/^Mem:/{print $3}')
+AVAIL_NOW=$(free -h | awk '/^Mem:/{print $7}')
+
+CPU_USAGE=$(top -bn2 -d 0.5 | grep "Cpu(s)" | tail -1 | awk '{print 100 - $8"%"}')
+
+# 2. Generar lista de procesos
+# %cpu: porcentaje de CPU | rss: memoria residente en KB | pid: ID | comm: comando
+OPTIONS=$(ps -eo pcpu,rss,pid,comm --sort=-pcpu | head -n 1001 | sed 1d | awk -v total_mem="$TOTAL_RAM_MB" '{
+    # Convertimos RSS (KB) a GB para mayor precisión que usar el % de ps
+    mem_gb = $2 / 1024 / 1024;
+    printf "%5.1f%% CPU | %5.2f GB RAM | PID: %-7s | %s\n", $1, mem_gb, $3, $4
+}')
+
+# 3. Lanzar Rofi con info de CPU y RAM en el encabezado
+CHOICE=$(echo -e "$OPTIONS" | rofi -dmenu -i \
+    -p "Procesos" \
+    -mesg "󰻠 CPU: $CPU_USAGE | RAM: $USED_NOW used (Avail: $AVAIL_NOW)" \
+    -theme-str 'window {width: 750px;} listview {lines: 15;}' \
+    -location 0)
+
+# 4. Handle selected action
+if [ -n "$CHOICE" ]; then
+    PID=$(echo "$CHOICE" | grep -oP 'PID:\s+\K[0-9]+')
+    NAME=$(echo "$CHOICE" | awk -F '| ' '{print $NF}')
+
+    ACTION=$(echo -e "Kill\nTerminate\nLow Priority (+10)\nMinimum Priority (+19)\nHigh Priority (-10)\nMaximum Priority (-20)\nCancel" | \
+             rofi -dmenu -p "Action for: $NAME (PID: $PID)" -width 30)
+
+    case "$ACTION" in
+        "Kill")
+            kill -9 "$PID" ;;
+        "Terminate")
+            kill -15 "$PID" ;;
+        "Low Priority (+10)")
+            renice +10 -p "$PID" ;;
+        "Minimum Priority (+19)")
+            renice +19 -p "$PID" ;;
+        "High Priority (-10)")
+            # Using -e and passing the command and arguments separately
+            alacritty --title "Elevation Required" -e sudo renice -10 -p "$PID" ;;
+        "Maximum Priority (-20)")
+            alacritty --title "Elevation Required" -e sudo renice -20 -p "$PID" ;;
+        *)
+            exit 0 ;;
+    esac
+fi

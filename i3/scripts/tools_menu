@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# 1. Definimos las opciones (usamos \n para asegurar que Rofi las vea como líneas separadas)
+OPTIONS="Kill auto-picom\nOpen auto-picom\nRecurses Menu\nExtra:Multiplication table\nMusic and Video info"
+
+# Configuración de Rofi
+LAUNCHER="rofi -dmenu -i -p Tools/extras: -width 15 -location 3"
+
+# Capturamos la elección (usamos echo -e para que interprete los \n)
+CHOICE=$(echo -e "$OPTIONS" | $LAUNCHER)
+
+case "$CHOICE" in
+    "Kill auto-picom")
+        pkill -f "auto-picom"
+        notify-send "Process Killed" "You can safely use picom lol"
+        ;;
+    "Open auto-picom")
+        if pgrep -f "auto-picom" > /dev/null; then
+            notify-send "Already Running" "The Process has Already Running, Don't let it give you Alzheimer's xd"
+        else
+            ~/.config/i3/scripts/auto-picom.sh &
+            notify-send "Process Active" "The auto-picom has been Activated"
+        fi
+        ;;
+    "Recurses Menu")
+        # Si este es otro script de Rofi, también conviene lanzarlo en segundo plano
+        ~/.config/i3blocks/scripts/recurses_menu &
+        ;;
+
+    "Extra:Multiplication table")
+        ~/.config/i3/scripts/table.sh &
+        ;;
+    "Music and Video info")
+        ~/.config/i3/scripts/media_info &
+        ;;
+    *)
+        exit 0
+        ;;
+esac

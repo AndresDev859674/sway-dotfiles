@@ -1,0 +1,223 @@
+### Solucionar mi problema de abrir, descargar archivos xd
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec hash dbus-update-activation-environment 2>/dev/null && \
+dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+
+# output VGA-1 mode 1440x900@74.984Hz
+
+include ~/.config/sway/outputs
+include ~/.config/sway/workspaces.conf
+
+# prefiero nwg-displays que poner un output
+
+input * xkb_numlock enabled
+# Elimina esto si prefieres
+
+### Variables de entorno y Modificador
+set $mod Mod4
+set $refresh_i3status killall -SIGUSR1 i3status
+
+### Estética de Ventanas
+default_border normal 2
+title_align center
+
+# Formato: class             border    backgr.   text    indicator child_border
+client.focused           #b9dcff99 #12345699 #abcdef #8be9fd   #8be9fd99
+client.focused_inactive  #44475a99 #282a3699 #6272a4 #44475a   #44475a99
+client.unfocused         #282a3699 #282a3699 #6272a4 #282a36   #282a3699
+
+### Fuentes [cite: 6]
+font pango:JetBrainsMono Nerd Font 12
+
+### Autostart (Adaptado para Wayland)
+
+exec --no-startup-id dex --autostart --environment sway
+exec --no-startup-id nm-applet
+exec_always --no-startup-id dunst
+exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
+
+exec awww-daemon
+exec_always sh -c 'sleep 0.5 && awww img "$(cat $HOME/.current_wallpaper || echo $HOME/i3-wallpapers/default.png)" --transition-type outer --transition-duration 0.3'
+
+### Atajos de Teclado Personalizados
+bindsym $mod+t exec ~/.config/i3/scripts/toggle_borders.sh
+bindsym Mod4+Mod1+t exec ~/.config/i3/scripts/table.sh
+bindsym Mod4+Control+v exec ~/.config/i3/scripts/media_info
+bindsym $mod+mod1+Return exec alacritty
+bindsym Mod4+Mod1+w exec ~/.config/i3/wallpaper.sh
+bindsym Mod4+Control+T exec ~/.config/i3/scripts/tools_menu
+bindsym Mod4+Control+O exec ~/.config/i3/scripts/options_menu
+bindsym Control+Mod1+w exec ~/.config/i3/select_wallpaper.sh
+bindsym $mod+g exec --no-startup-id "rofi -show drun"
+bindsym $mod+mod1+s exec --no-startup-id "~/.config/i3blocks/scripts/recurses_menu"
+bindsym $mod+i exec firefox
+bindsym Control+Mod1+Delete exec --no-startup-id ~/.config/i3blocks/scripts/shutdown_menu
+bindsym $mod+mod1+c exec --no-startup-id ~/.config/i3/toggle_color.sh
+bindsym $mod+b exec --no-startup-id ~/.config/i3/toggle_bar.sh
+
+# Capturas de pantalla (grim/slurp son recomendados en Sway en lugar de flameshot)
+bindsym Print       exec --no-startup-id ~/.config/i3/scripts/screenshot.sh full
+bindsym Shift+Print exec --no-startup-id ~/.config/i3/scripts/screenshot.sh select
+
+### Control de Audio (amixer funciona, pero pactl es más nativo en Wayland)
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%-
+bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+### Gestión de Ventanas y Movimiento [cite: 15, 17]
+floating_modifier $mod
+
+bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+q kill
+bindsym $mod+d exec --no-startup-id dmenu_run
+
+# Foco y Movimiento (jkl;) [cite: 24, 25]
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# Layouts [cite: 18]
+bindsym $mod+h split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+mod1+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+### Workspaces [cite: 20, 21]
+set $ws1 "1: "
+set $ws2 "2: "
+set $ws3 "3: "
+set $ws4 "4: "
+set $ws5 "5: "
+set $ws6 "6: "
+set $ws7 "7: "
+set $ws8 "8: 󰎚"
+set $ws9 "9: 󰎝"
+set $ws10 "10: 󰎠"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+### Modos de i3
+bindsym $mod+Shift+c reload
+bindsym $mod+x reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'
+
+mode "resize" {
+    bindsym j resize shrink width 10 px
+    bindsym k resize grow height 10 px
+    bindsym l resize shrink height 10 px
+    bindsym semicolon resize grow width 10 px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bindsym Control+Mod4+Delete exec wlogout
+
+exec_always pkill -x autotiling; autotiling -w 1 3 5 7 9
+# Sistema de optimizacion para Autotiling, no se pero me lleno 6gb de ram, una locura de verdad
+
+### IDLE y LOCK
+exec swayidle -w \
+     timeout 300 'swaylock -f -c 000000' \
+     timeout 600 'swaymsg "output * power off"' \
+     resume 'swaymsg "output * power on"' \
+     before-sleep 'swaylock -f -c 000000'
+
+bindsym $mod+mod1+l exec "swaylock -f -c 000000"
+
+exec wl-paste --type text --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+
+bindsym $mod+c exec cliphist list | rofi -dmenu | cliphist decode | wl-copy
+bindsym $mod+Delete+c exec cliphist wipe
+bindsym $mod+mod1+b exec dmenufm
+
+bindsym $mod+mod1+e exec bemoji
+bindsym Control+mod1+t exec ~/.config/i3/scripts/calendar.sh
+
+exec ~/.config/i3/scripts/holiday_nag.sh
+# Modo nocturno
+exec gammastep -l 40.4:-3.7 -t 6500:3500
+# Tecla para Desativar
+bindsym Control+mod1+g exec pkill -x gammastep && notify-send "Night Mode Killed" "Now you can use the desktop with the normal"
+
+bindsym Control+Mod4+s exec ~/.config/i3/scripts/selector-chars.sh
+
+### Barra de Estado [cite: 26, 27]
+bar {
+    status_command i3status-rs ~/.config/i3status-rust/config.toml
+    position top
+    colors {
+        background #fbf1c7
+        statusline #ebdbb2
+        separator #504945
+
+        focused_workspace #af3a03 #af3a03 #ebdbb2
+        active_workspace   #fbf1c7 #123456 #282828
+        inactive_workspace #fbf1c7 #fbf1c7 #3c3836
+        urgent_workspace #9d0006 #9d0006 #fbf1c7
+    }
+}
+
+# --- Esquinas Redondeadas ---
+corner_radius 10
+
+# --- Sombras ---
+shadows enable
+shadow_blur_radius 20
+shadow_color #0000007F
+
+# --- Difuminado (Blur) ---
+ blur enable
+ blur_passes 3
+ blur_radius 2
+ blur_xray disable
+
+# --- Opacidad (Dim) ---
+# Esto reemplaza tu active/inactive opacity de picom
+default_dim_inactive 0.1
+
+# --- Efectos en la barra (Waybar/swaybar) ---
+layer_effects "waybar" blur enable; corner_radius 10
+
+layer_effects "rofi" {
+    default_dim_inactive 0.1
+    corner_radius 5
+    blur enable
+}
+
+for_window [app_id="UNDERTALE"] floating enable
+for_window [app_id="Main"] floating enable, blur disable
+for_window [app_id="steam"] blur disable
+for_window [app_id="wlogout"] floating enable, border none, sticky enable
