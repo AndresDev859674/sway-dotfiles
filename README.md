@@ -43,6 +43,7 @@ Put the Folders in the Next Directories
 | **dunst** | ~/.config/ |
 | **sway** | ~/.config/ |
 | **swaylock** | ~/.config/ |
+| **greenclip.toml** | ~/.config/ |
 | **i3blocks** | ~/.config/ |
 | **i3status-rust** | ~/.config/ |
 | **wlogout** | ~/.config/ |
