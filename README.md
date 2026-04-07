@@ -112,7 +112,7 @@ Now Log-off or Restart to Log-in into Sway, NOW enjoy!
 
 6. **Its really Heavy?**
    
-   No, as with the previous FAQs and also on the PC it was tested on, there were no performance issues. It's very lightweight.
+   No, as with the previous FAQs and also on the PC it was tested on, there were no performance issues. It's very lightweight, although I recommend you try it yourself to see the performance for yourself.
     
 # Credits    
 newmanls for the Themes collection
