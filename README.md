@@ -109,6 +109,10 @@ Now Log-off or Restart to Log-in into Sway, NOW enjoy!
 5. **How to disable Blur?**
    
    Comment `#` the blur enable in the sway config `~/.config/sway/config`, Like this `# blur enable`
+
+6. **Its really Heavy?**
+   
+   No, as with the previous FAQs and also on the PC it was tested on, there were no performance issues. It's very lightweight.
     
 # Credits    
 newmanls for the Themes collection
