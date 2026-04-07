@@ -98,3 +98,6 @@ Now Log-off or Restart to Log-in into Sway, NOW enjoy!
 newmanls for the Themes collection
 
 # I3 VERSION REPO or BRANCH COMING SOON
+
+![Arch](https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
