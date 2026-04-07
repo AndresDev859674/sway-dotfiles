@@ -16,16 +16,16 @@ First install the Dependencies, and make sure you are en KDE, i recommend this D
 ## Dependencies
 Only tested in Arch linux, If you are another distro, install the dependencies that are here
 ```bash
-swayidle swaylock dex network-manager-applet alacritty rofi-lbonn-wayland i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji
+swayidle swaylock swaynag dex network-manager-applet alacritty rofi-lbonn-wayland i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi
 ```
 ### Arch linux
 Pacman Dependencies
 ```bash
-sudo pacman -S swayidle swaylock dex network-manager-applet alacritty rofi-lbonn-wayland i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils
+sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu swaynag autotiling awww
 ```
 AUR Dependencies
 ```bash
-yay -S swayfx autotiling awww-git bemoji
+yay -S swayfx bemoji wlogout tofi
 ```
 
 ## Clone the Repo
