@@ -80,15 +80,23 @@ Put the Folders in the Next Directories
 | **i3** | ~/.config/ |
 | **rofi** | ~/.local/ |
 ---
+## Making executable
+Run this command
+```bash
+find . -type f -name "*.sh" -exec chmod +x {} +
+```
+Make Sure that you are in the sway-dofiles directory
+
+## Rofi
 Now in your terminal, Put `rofi-theme-selector`
 search andrewdf1 or simple-andrewdf1
 The one you like best
 
-## Updating
-Follow the previous steps, but again, put the folders with the new changes in their directories, etc.
-
 ## Ending
 Now Log-off or Restart to Log-in into Sway, NOW enjoy!
+
+## Updating
+Follow the previous steps, but again, put the folders with the new changes in their directories, etc.
 
 #### I don't have confirmation if this manual installation/setup works properly.
 
