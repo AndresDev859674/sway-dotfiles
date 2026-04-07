@@ -18,11 +18,13 @@ My Personal and useful and Lightweight Dotfiles, Also you can use with KDE and S
 | <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/0c914879-b156-49f0-b91e-61c9bd8cb986" /> | <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/9b0121f1-6262-4f00-aea0-81955706fa71" /> |
  <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/5c3a82cf-498d-4e00-81fb-ec526cc09c47" /> | <img width="1440" height="900" alt="image" src="https://github.com/user-attachments/assets/1d96eec8-8886-4962-a130-822be25cf074" /> |
 
+<img width="1280" height="800" alt="image" src="https://github.com/user-attachments/assets/af0f4a8a-02bb-43fb-be62-3cb513c5eec5" />
+
 
 # Setup
 First install the Dependencies, and make sure you are en KDE, i recommend this Dotfiles with KDE installed
 ## Dependencies
-Only tested in Arch linux, If you are another distro, install the dependencies that are here
+Only tested in Arch linux, in CachyOS and EndeavourOS should work, If you are another distro, install the dependencies that are here
 ```bash
 swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop 
 ```
