@@ -87,7 +87,7 @@ The one you like best
 ## Ending
 Now Log-off or Restart to Log-in into Sway, NOW enjoy!
 
-#### I don't have confirmation if this setup works properly.
+#### I don't have confirmation if this manual installation/setup works properly.
 
 # FAQ
 1. **So, Where the Keybinds**
