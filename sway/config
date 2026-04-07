@@ -37,7 +37,7 @@ exec_always --no-startup-id dunst
 exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
 
 exec awww-daemon
-exec_always sh -c 'sleep 0.5 && awww img "$(cat $HOME/.current_wallpaper || echo $HOME/i3-wallpapers/default.png)" --transition-type outer --transition-duration 0.3'
+exec_always sh -c 'sleep 0.5 && awww img "$(cat $HOME/.current_wallpaper || echo $HOME/i3-wallpapers/i3-6.png)" --transition-type outer --transition-duration 0.3'
 
 ### Atajos de Teclado Personalizados
 bindsym $mod+t exec ~/.config/i3/scripts/toggle_borders.sh
@@ -179,14 +179,14 @@ bar {
     status_command i3status-rs ~/.config/i3status-rust/config.toml
     position top
     colors {
-        background #fbf1c7
-        statusline #ebdbb2
-        separator #504945
+        background #123456AA
+        statusline #666666
+        separator #222222
 
-        focused_workspace #af3a03 #af3a03 #ebdbb2
+        focused_workspace #abcdef #abcdef #ffffff
         active_workspace   #fbf1c7 #123456 #282828
-        inactive_workspace #fbf1c7 #fbf1c7 #3c3836
-        urgent_workspace #9d0006 #9d0006 #fbf1c7
+        inactive_workspace #123456 #123456 #abcdef
+        urgent_workspace #ff5555 #ff5555 #ffffff
     }
 }
 
