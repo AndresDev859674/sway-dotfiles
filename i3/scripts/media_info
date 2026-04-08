@@ -1,49 +1,81 @@
 #!/bin/bash
 
-TMP_DIR="/tmp/dunst_covers"
+# Directorio temporal para carátulas
+TMP_DIR="/tmp/swaync_covers"
 mkdir -p "$TMP_DIR"
 
-# 1. Obtener todos los reproductores
+# Función para convertir microsegundos a formato MM:SS
+format_time() {
+    local useconds=$1
+    if [ -z "$useconds" ] || [ "$useconds" -eq 0 ]; then
+        echo "00:00"
+        return
+    fi
+    local seconds=$((useconds / 1000000))
+    printf "%02d:%02d" $((seconds / 60)) $((seconds % 60))
+}
+
+# 1. Obtener reproductores
 ALL_PLAYERS=$(playerctl -l 2>/dev/null)
 
-# 2. Lógica de filtrado inteligente:
-# Si existe Plasma Integration, borramos los nombres genéricos de navegadores
 if echo "$ALL_PLAYERS" | grep -q "plasma-browser-integration"; then
-    # Filtramos navegadores pero MANTENEMOS plasma y otros (VLC, etc)
     PLAYERS=$(echo "$ALL_PLAYERS" | grep -vE "firefox|chrome|chromium" | head -n 5)
 else
-    # Si no hay Plasma, mostramos lo que haya hasta 5
     PLAYERS=$(echo "$ALL_PLAYERS" | head -n 5)
 fi
 
-# 3. Procesar la lista filtrada
 for PLAYER in $PLAYERS; do
     STATUS=$(playerctl -p "$PLAYER" status 2>/dev/null)
     [ -z "$STATUS" ] && continue
 
+    # Metadatos
     TITLE=$(playerctl -p "$PLAYER" metadata title 2>/dev/null)
     ARTIST=$(playerctl -p "$PLAYER" metadata artist 2>/dev/null)
+    ALBUM=$(playerctl -p "$PLAYER" metadata xesam:album 2>/dev/null)
     ART_URL=$(playerctl -p "$PLAYER" metadata mpris:artUrl 2>/dev/null)
 
-    # Nombre estético para la App
+    # Metadatos de tiempo
+    LENGTH=$(playerctl -p "$PLAYER" metadata mpris:length 2>/dev/null)
+    POS_SEC=$(playerctl -p "$PLAYER" position 2>/dev/null)
+    # Convertimos a microsegundos quitando decimales para Bash
+    POSITION=$(echo "$POS_SEC * 1000000" | bc 2>/dev/null | cut -d. -f1)
+
+    # Formatear la línea de información (Artista - Álbum)
+    INFO_TEXT="<i>$ARTIST</i>"
+    if [ -n "$ALBUM" ]; then
+        INFO_TEXT="$INFO_TEXT\n<span size='small'>󰀥 $ALBUM</span>"
+    fi
+
+    # Calcular progreso y etiquetas
+    if [ -n "$LENGTH" ] && [ "$LENGTH" -gt 0 ] && [ -n "$POSITION" ]; then
+        PROGRESS=$(( POSITION * 100 / LENGTH ))
+        TIME_NOW=$(format_time "$POSITION")
+        TIME_TOTAL=$(format_time "$LENGTH")
+        TIME_TAG="\n<span color='#bbb' font_family='monospace' size='small'>$TIME_NOW / $TIME_TOTAL</span>"
+    else
+        PROGRESS=0
+        TIME_TAG=""
+    fi
+
+    # Nombre estético de la App
     if [[ "$PLAYER" == *"plasma-browser-integration"* ]]; then
-        APP_NAME="Web / Browser"
+        APP_NAME="Web Browser"
     else
         APP_NAME=$(echo "$PLAYER" | cut -d. -f1 | sed 's/./\U&/')
     fi
 
-    # ID Único basado en el nombre (ID entre 1 y 65535)
-    ID_NUM=$(echo "$PLAYER" | sum | cut -d ' ' -f 1)
+    # ID Único
+    ID_NUM=$(echo "$PLAYER" | cksum | cut -d ' ' -f 1)
 
     # Gestionar Carátula
     CLEAN_PLAYER=$(echo "$PLAYER" | tr -d '.')
     ICON_PATH="$TMP_DIR/cover_${CLEAN_PLAYER}.png"
 
     if [ -n "$ART_URL" ]; then
-        CLEAN_URL=$(echo "$ART_URL" | sed 's/file:\/\///g' | sed 's/%20/ /g')
         if [[ "$ART_URL" == http* ]]; then
             curl -sL "$ART_URL" -o "$ICON_PATH"
         else
+            CLEAN_URL=$(echo "$ART_URL" | sed 's/file:\/\///g' | sed 's/%20/ /g')
             cp "$CLEAN_URL" "$ICON_PATH" 2>/dev/null
         fi
         FINAL_ICON="$ICON_PATH"
@@ -51,6 +83,11 @@ for PLAYER in $PLAYERS; do
         FINAL_ICON="audio-x-generic"
     fi
 
-    # Notificar
-    dunstify -u low -r "$ID_NUM" -i "$FINAL_ICON" "$APP_NAME: $STATUS" "<b>$TITLE</b>\n<i>$ARTIST</i>"
+    # Notificar a SwayNC
+    notify-send -a "Media: $APP_NAME" \
+                -i "$FINAL_ICON" \
+                -r "$ID_NUM" \
+                -h int:value:"$PROGRESS" \
+                "$STATUS: $TITLE" \
+                "$INFO_TEXT$TIME_TAG"
 done

@@ -46,12 +46,12 @@ First install the Dependencies, and make sure you are en KDE, i recommend this D
 ## Dependencies
 Only tested in **Arch linux**, in **CachyOS** and **EndeavourOS** should work, If you are another distro, install the dependencies that are here
 ```bash
-swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop 
+swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop swaync
 ```
 ### Arch linux
 Pacman Dependencies
 ```bash
-sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu autotiling awww ttf-font-awesome playerctl pavucontrol btop 
+sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu autotiling awww ttf-font-awesome playerctl pavucontrol btop swaync
 ```
 AUR Dependencies
 ```bash
@@ -78,6 +78,7 @@ Put the Folders in the Next Directories
 | **i3status-rust** | ~/.config/ |
 | **wlogout** | ~/.config/ |
 | **i3** | ~/.config/ |
+| **swaync** | ~/.config/ |
 | **rofi** | ~/.local/ |
 ---
 ## Making executable
@@ -128,7 +129,7 @@ Follow the previous steps, but again, put the folders with the new changes in th
 7. **How Really works? The Menus Etc**
    
    Using only Shell files for menus, i3status-rust for the bar blocks, and others, we use Shell because it is efficient and more convenient.
-    
+
 # Credits    
 newmanls for the Themes collection
 

@@ -33,7 +33,9 @@ font pango:JetBrainsMono Nerd Font 12
 
 exec --no-startup-id dex --autostart --environment sway
 exec --no-startup-id nm-applet
-exec_always --no-startup-id dunst
+exec_always --no-startup-id swaync
+# exec_always --no-startup-id dunst
+# adios fuiste un buen amigo
 exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
 
 exec awww-daemon
@@ -145,7 +147,13 @@ bindsym $mod+r mode "resize"
 bindsym Control+Mod4+Delete exec wlogout
 
 exec_always pkill -x autotiling; autotiling -w 1 3 5 7 9
-# Sistema de optimizacion para Autotiling, no se pero me lleno 6gb de ram, una locura de verdad
+# Sistema de optimizacion para Autotiling, no se pero me lleno 6gb de ram,una locura de verdad
+
+exec_always pkill -x sway-check-zomb; ~/.config/i3/scripts/sway-check-zombie.sh
+
+exec swaync
+
+bindsym $mod+n exec swaync-client -t -sw
 
 ### IDLE y LOCK
 exec swayidle -w \
@@ -168,7 +176,8 @@ bindsym Control+mod1+t exec ~/.config/i3/scripts/calendar.sh
 
 exec ~/.config/i3/scripts/holiday_nag.sh
 # Modo nocturno
-exec gammastep -l 40.4:-3.7 -t 6500:3500
+# Agendar el cambio de temperatura a las 7 PM al iniciar Sway
+exec_always gammastep -l 40.4:-3.7 -t 6500:3500 -s 19:00 -S 07:00
 # Tecla para Desativar
 bindsym Control+mod1+g exec pkill -x gammastep && notify-send "Night Mode Killed" "Now you can use the desktop with the normal"
 

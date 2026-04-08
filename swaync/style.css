@@ -1,0 +1,154 @@
+* {
+font-family: "Monospace";
+font-size: 12px;
+transition: 200ms;
+}
+
+:root {
+  --border-radius: 22px;
+  --cc-bg: transparent;
+
+  --widget-background: rgba(46, 46, 46, 0.7);
+  --noti-bg-alpha: 0.6;
+
+  --padding: calc(var(--border-radius) / 2);
+}
+
+
+/* --- Título del Menú --- */
+.widget-title {
+  color: #89b4fa;
+  font-family: "Monospace";
+  font-weight: bold;
+  font-size: 15px;
+  margin: 10px;
+}
+
+/* --- Notificaciones Individuales --- */
+.notification-row {
+  margin-bottom: 10px;
+  background: transparent;
+}
+
+.notification {
+  background: #1e1e2e;
+  border: 3px solid #aaaaaa;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.control-center {
+  border-radius: 0;
+}
+
+.widgets > .widget,
+.widget-mpris > carouselindicatordots,
+.widget-mpris > box > button {
+  background: #1e1e2e;
+  border-radius: var(--border-radius);
+  padding: calc(var(--border-radius) / 2);
+  border: var(--border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.control-center-list-placeholder {
+  padding: var(--border-radius);
+}
+
+.notification-group {
+  border-radius: var(--border-radius);
+  padding: 8px;
+}
+
+.widget.widget-mpris {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  border: none;
+}
+.widget.widget-mpris > carouselindicatordots {
+  --dots-padding: 4px;
+  padding: var(--dots-padding);
+  padding-left: var(--dots-padding);
+  padding-right: calc(6px + var(--dots-padding));
+  margin: 0;
+  margin-top: var(--padding);
+}
+.widget-mpris > box > button:hover {
+  background: rgba(46, 46, 46, 1);
+}
+.widget-mpris-player {
+  box-shadow: none;
+  border: var(--border);
+  margin: 0 var(--padding);
+}
+.widget-mpris-player:only-child {
+  margin: 0;
+}
+
+
+/* --- Contenedor de Botones de Acción --- */
+.notification-action {
+  margin-top: 8px;
+  background: transparent;
+}
+
+.notification-action-button {
+  background: #313244;
+  color: #cdd6f4;
+  border: 3px solid #aaaaaa;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-family: "Monospace";
+  font-weight: bold;
+}
+
+.notification-action-button:hover {
+  background: #89b4fa;
+  color: #1e1e2e;
+  border-color: #ffffff;
+}
+
+/* --- Campo de Entrada de Texto --- */
+.notification-reply-entry {
+  background: #313244;
+  color: #cdd6f4;
+  border: 3px solid #aaaaaa;
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 10px;
+  font-family: "Monospace";
+}
+
+.notification-reply-entry:focus {
+  border-color: #89b4fa;
+  background: #45475a;
+}
+
+/* --- Scrollbar Personalizada --- */
+scrollbar {
+  background: #313244;
+  min-width: 8px; /* Corregido: de width a min-width */
+}
+
+slider {
+  background: #89b4fa;
+  border-radius: 5px;
+}
+
+progressbar {
+  background-color: #378d7f;
+  min-height: 8px;
+  border-radius: 4px;
+}
+
+progress {
+  background-color: #94e2d5;
+  border-radius: 4px;
+}
+
+/* --- Etiquetas de Urgencia --- */
+.notification.low { border-color: #89b4fa; }
+.notification.normal { border-color: #89b4fa; }
+.notification.critical { border-color: #f38ba8; }

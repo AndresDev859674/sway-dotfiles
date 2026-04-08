@@ -61,6 +61,9 @@ block = "time"
 interval = 1
 format = " $icon $timestamp.datetime(f:'%a %d/%m %I:%M:%S %p') "
 # Tambien puedes remover %S q son segundos, o ponerlo en 24 horas
+[[block.click]]
+button = "left"
+cmd = "~/.config/i3/scripts/calendar.sh"
 
 [[block]]
 block = "custom"
@@ -77,3 +80,11 @@ interval = "once"
 [[block.click]]
 button = "left"
 cmd = "~/.config/i3/scripts/options_menu"
+
+[[block]]
+block = "custom"
+command = "echo "
+interval = "once"
+[[block.click]]
+button = "left"
+cmd = "swaync-client -t -sw"
