@@ -65,6 +65,13 @@ git clone https://github.com/AndresDev859674/sway-dotfiles.git
 ```
 Go to Repo Directory and...
 
+## Making executable
+Run this command
+```bash
+find . -type f -name "*.sh" -exec chmod +x {} +
+```
+Make Sure that you are in the sway-dofiles directory
+
 ## Setting the configs
 Put the Folders in the Next Directories
 | Folders | Directory |
@@ -81,12 +88,6 @@ Put the Folders in the Next Directories
 | **swaync** | ~/.config/ |
 | **rofi** | ~/.local/ |
 ---
-## Making executable
-Run this command
-```bash
-find . -type f -name "*.sh" -exec chmod +x {} +
-```
-Make Sure that you are in the sway-dofiles directory
 
 ## Rofi
 Now in your terminal, Put `rofi-theme-selector`
