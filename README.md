@@ -104,8 +104,8 @@ Follow the previous steps, but again, put the folders with the new changes in th
 
 #### I don't have confirmation if this manual installation/setup works properly.
 
-## alacritty
-put the alacritty in `~/.config/` from the repo directory
+## alacritty config
+These contain the themes and settings to match the aesthetics of dotfiles. the alacritty in `~/.config/` from the repo directory
 
 ## waybar
 waybar is not default for the moment, here's how to enable, Make sure if you have `waybar` in your sway config, put 
