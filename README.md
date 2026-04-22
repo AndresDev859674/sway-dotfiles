@@ -118,7 +118,7 @@ in the bar in the config
 ### gtk-3.0
 If you want the tray colors to match the Waybar colors, put this in `~/.config/gtk-3.0/gtk.css`, or copy the gtk-3.0 from the repo
 
-```bash
+```css
 menu,
 .menu,
 .context-menu {
