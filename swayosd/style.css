@@ -1,0 +1,21 @@
+/* Estilo general de la ventana del OSD */
+.osd {
+    background: rgba(30, 30, 46, 0.9); /* Color de fondo oscuro con transparencia */
+    border: 2px solid #89b4fa;         /* Borde color azul suave */
+    border-radius: 15px;               /* Esquinas redondeadas */
+    padding: 10px;                     /* Espacio interior */
+}
+
+/* La barra de progreso (el nivel de volumen) */
+.osd-progress-bar {
+    background-color: #f5c2e7;         /* Color de la barra (rosa claro) */
+    border-radius: 10px;
+    min-height: 10px;                  /* Grosor de la barra */
+}
+
+/* El texto dentro del OSD */
+.osd-text {
+    color: #cdd6f4;                    /* Color del texto */
+    font-weight: bold;
+    font-size: 14px;
+}

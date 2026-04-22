@@ -1,0 +1,149 @@
+/* Variables de Color (Tema Azul Moderno) */
+@define-color bg_color rgba(15, 20, 30, 0.75); /* Fondo oscuro translúcido para el blur */
+@define-color bg_module rgba(26, 33, 48, 0.8);
+@define-color fg_color #c0caf5;
+@define-color accent_blue #4dd0e1; /* Cian brillante estilo Tron/Cyberpunk */
+@define-color accent_blue_dim rgba(77, 208, 225, 0.2);
+@define-color urgent #f7768e;
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: @bg_color;
+    color: @fg_color;
+    /* Efecto Flotante: Bordes redondeados y borde completo */
+    border-radius: 12px;
+    border: 1px solid rgba(77, 208, 225, 0.15);
+}
+
+/* Tooltips */
+tooltip {
+    background: #1a1b26;
+    border: 1px solid @accent_blue;
+    border-radius: 8px;
+}
+tooltip label {
+    color: @fg_color;
+}
+
+/* Modulos Generales */
+#workspaces, #mode, #window, #mpris, #custom-cava,
+#disk, #cpu, #memory, #pulseaudio, #clock, #tray, #custom-power {
+padding: 0 10px;
+margin: 4px 4px;
+border-radius: 8px;
+background-color: transparent;
+}
+
+/* Workspaces */
+#workspaces button {
+padding: 0 6px;
+color: @fg_color;
+border-radius: 6px;
+transition: all 0.2s ease-in-out;
+}
+
+#workspaces button:hover {
+background: rgba(255, 255, 255, 0.1);
+}
+
+#workspaces button.focused {
+background-color: @accent_blue;
+color: #0f141e; /* Texto oscuro para contrastar con el cian */
+box-shadow: 0 0 5px rgba(77, 208, 225, 0.5);
+}
+
+#workspaces button.urgent {
+background-color: @urgent;
+color: #0f141e;
+}
+
+/* Reproductor de música (Destacado como en tu imagen) */
+#mpris {
+background-color: @accent_blue;
+color: #0f141e;
+font-weight: bold;
+padding: 0 14px;
+border-radius: 12px;
+}
+#mpris.paused {
+background-color: @bg_module;
+color: @fg_color;
+border: 1px solid @accent_blue_dim;
+}
+
+/* Sistema y Hardware */
+#disk { color: #bb9af7; }
+#cpu { color: #7dcfff; }
+#memory { color: #9ece6a; }
+#pulseaudio { color: #e0af68; }
+
+#disk, #cpu, #memory, #pulseaudio {
+background-color: @bg_module;
+border-radius: 12px;
+margin-right: 4px;
+}
+
+/* Reloj */
+#clock {
+color: @accent_blue;
+background-color: @bg_module;
+border-radius: 12px;
+padding: 0 12px;
+}
+
+/* Botón de apagado */
+#custom-power {
+color: @urgent;
+background-color: @bg_module;
+border-radius: 12px;
+padding-right: 14px;
+padding-left: 10px;
+margin-right: 8px;
+}
+
+/* Botón de apagado */
+#custom-config {
+color: #F54927;
+background-color: @bg_module;
+border-radius: 12px;
+padding-right: 14px;
+padding-left: 10px;
+margin-right: 8px;
+}
+
+/* Botón de apagado */
+#custom-panel {
+color: #F54927;
+background-color: @bg_module;
+border-radius: 12px;
+padding-right: 14px;
+padding-left: 10px;
+margin-right: 8px;
+}
+
+#custom-separator {
+color: #444b6a;
+}
+
+#custom-cava.Playing {
+background: rgb(137, 180, 250);
+background: radial-gradient(circle, rgba(137, 180, 250, 120) 0%, rgba(142, 179, 250, 120) 6%, rgba(148, 226, 213, 1) 14%, rgba(147, 178, 250, 1) 14%, rgba(155, 176, 249, 1) 18%, rgba(245, 194, 231, 1) 28%, rgba(158, 175, 249, 1) 28%, rgba(181, 170, 248, 1) 58%, rgba(205, 214, 244, 1) 69%, rgba(186, 169, 248, 1) 69%, rgba(195, 167, 247, 1) 72%, rgba(137, 220, 235, 1) 73%, rgba(198, 167, 247, 1) 78%, rgba(203, 166, 247, 1) 100%);
+background-size: 400% 400%;
+animation: gradient_f 9s cubic-bezier(.72, .39, .21, 1) infinite;
+text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.377);
+font-weight: bold;
+color: #fff;
+}
+
+#custom-cava.Paused,
+#custom-cava.Stopped {
+background: #161925;
+}
