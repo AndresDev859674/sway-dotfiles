@@ -1,0 +1,79 @@
+/*
+* GTK colors generated with Matugen
+* The source template is here: ~/.config/matugen/templates/gtk-3.0/gtk.css
+*/
+
+/* Accents */
+@define-color accent_color #ddc1af;
+@define-color accent_fg_color #3e2d20;
+@define-color accent_bg_color #ddc1af;
+@define-color destructive_bg_color #93000a;
+@define-color destructive_fg_color #ffdad6;
+@define-color destructive_color #ffb4ab;
+@define-color success_bg_color #374B3E;
+@define-color success_fg_color #D1E9D6;
+@define-color success_color #B5CCBA;
+/* Base surfaces */
+@define-color window_bg_color #161311;
+@define-color window_fg_color #e8e1de;
+@define-color headerbar_bg_color #221f1d;
+@define-color headerbar_backdrop_color #221f1d;
+@define-color headerbar_fg_color #e8e1de;
+@define-color card_bg_color #221f1d;
+@define-color card_fg_color #e8e1de;
+@define-color sidebar_bg_color #221f1d;
+@define-color sidebar_fg_color #e8e1de;
+@define-color secondary_sidebar_bg_color #1e1b19;
+@define-color secondary_sidebar_fg_color #e8e1de;
+@define-color sidebar_border_color @sidebar_bg_color;
+@define-color sidebar_backdrop_color @sidebar_bg_color;
+@define-color view_bg_color #100e0c;
+@define-color view_fg_color #e8e1de;
+@define-color overview_bg_color #100e0c;
+@define-color overview_fg_color #e8e1de;
+/* Popups */
+@define-color popover_bg_color #383432;
+@define-color popover_fg_color #e8e1de;
+@define-color dialog_bg_color #2d2927;
+@define-color dialog_fg_color #e8e1de;
+
+menu,
+.menu,
+.context-menu {
+    margin: 10px;
+    padding: 8px;
+    background-color: rgba(15, 20, 30, 0.9); 
+    border: 1px solid rgba(77, 208, 225, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 13px;
+}
+
+menuitem,
+modelbutton {
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: #c0caf5;
+    transition: all 0.2s ease;
+}
+
+menuitem:hover,
+modelbutton:hover {
+    background-color: rgba(77, 208, 225, 0.2);
+    color: #4dd0e1; 
+}
+
+separator {
+    background-color: rgba(77, 208, 225, 0.15);
+    margin: 4px 8px;
+    min-height: 1px;
+}
+
+check, radio {
+    color: #4dd0e1;
+}
+
+arrow {
+    color: #c0caf5;
+}

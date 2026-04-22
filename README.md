@@ -46,16 +46,16 @@ First install the Dependencies, and make sure you are en KDE, i recommend this D
 ## Dependencies
 Only tested in **Arch linux**, in **CachyOS** and **EndeavourOS** should work, If you are another distro, install the dependencies that are here
 ```bash
-swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync
+swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync swayosd waybar
 ```
 ### Arch linux
 Pacman Dependencies
 ```bash
-sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu autotiling awww ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync
+sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu autotiling awww ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync waybar
 ```
 AUR Dependencies
 ```bash
-yay -S swayfx bemoji wlogout tofi
+yay -S swayfx bemoji wlogout tofi swayosd
 ```
 
 ## Clone the Repo
@@ -87,6 +87,8 @@ Put the Folders in the Next Directories
 | **i3** | ~/.config/ |
 | **swaync** | ~/.config/ |
 | **rofi** | ~/.local/ |
+| **waybar** | ~/.config/ |
+| **swayosd** | ~/.config/ |
 ---
 
 ## Rofi
@@ -101,6 +103,72 @@ Now Log-off or Restart to Log-in into Sway, NOW enjoy!
 Follow the previous steps, but again, put the folders with the new changes in their directories, etc.
 
 #### I don't have confirmation if this manual installation/setup works properly.
+
+## alacritty
+put the alacritty in `~/.config/` from the repo directory
+
+## waybar
+waybar is not default for the moment, here's how to enable, Make sure if you have `waybar` in your sway config, put 
+```bash
+swaybar_command waybar
+```
+
+in the bar in the config
+
+### gtk-3.0
+If you want the tray colors to match the Waybar colors, put this in `~/.config/gtk-3.0/gtk.css`, or copy the gtk-3.0 from the repo
+
+```bash
+menu,
+.menu,
+.context-menu {
+    margin: 10px;
+    padding: 8px;
+    background-color: rgba(15, 20, 30, 0.9); 
+    border: 1px solid rgba(77, 208, 225, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 13px;
+}
+
+menuitem,
+modelbutton {
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: #c0caf5;
+    transition: all 0.2s ease;
+}
+
+menuitem:hover,
+modelbutton:hover {
+    background-color: rgba(77, 208, 225, 0.2);
+    color: #4dd0e1; 
+}
+
+separator {
+    background-color: rgba(77, 208, 225, 0.15);
+    margin: 4px 8px;
+    min-height: 1px;
+}
+
+check, radio {
+    color: #4dd0e1;
+}
+
+arrow {
+    color: #c0caf5;
+}
+```
+
+### qt6ct
+If you want dark in qt and another things, put this in `~/.bash_profile`, **make sure if you have installed qt6ct**
+
+```bash
+if [[ "$XDG_CURRENT_DESKTOP" =~ "sway:wlroots:swayfx" ]]; then
+  export QT_QPA_PLATFORMTHEME=qt6ct
+fi
+```
 
 # FAQ
 1. **So, Where the Keybinds?**

@@ -15,11 +15,12 @@ format_time() {
     printf "%02d:%02d" $((seconds / 60)) $((seconds % 60))
 }
 
-# 1. Obtener reproductores
+# 1. Obtener lista de reproductores MPRIS activos
 ALL_PLAYERS=$(playerctl -l 2>/dev/null)
 
+# Evitar duplicados: Si existe plasma-browser-integration, ignoramos los nombres crudos de los navegadores
 if echo "$ALL_PLAYERS" | grep -q "plasma-browser-integration"; then
-    PLAYERS=$(echo "$ALL_PLAYERS" | grep -vE "firefox|chrome|chromium" | head -n 5)
+    PLAYERS=$(echo "$ALL_PLAYERS" | grep -vE "firefox|chrome|chromium|brave|edge" | head -n 5)
 else
     PLAYERS=$(echo "$ALL_PLAYERS" | head -n 5)
 fi
@@ -28,25 +29,34 @@ for PLAYER in $PLAYERS; do
     STATUS=$(playerctl -p "$PLAYER" status 2>/dev/null)
     [ -z "$STATUS" ] && continue
 
-    # Metadatos
+    # Metadatos base
     TITLE=$(playerctl -p "$PLAYER" metadata title 2>/dev/null)
     ARTIST=$(playerctl -p "$PLAYER" metadata artist 2>/dev/null)
     ALBUM=$(playerctl -p "$PLAYER" metadata xesam:album 2>/dev/null)
     ART_URL=$(playerctl -p "$PLAYER" metadata mpris:artUrl 2>/dev/null)
 
-    # Metadatos de tiempo
+    # Metadatos de tiempo (MPRIS directo)
     LENGTH=$(playerctl -p "$PLAYER" metadata mpris:length 2>/dev/null)
     POS_SEC=$(playerctl -p "$PLAYER" position 2>/dev/null)
-    # Convertimos a microsegundos quitando decimales para Bash
     POSITION=$(echo "$POS_SEC * 1000000" | bc 2>/dev/null | cut -d. -f1)
 
-    # Formatear la línea de información (Artista - Álbum)
-    INFO_TEXT="<i>$ARTIST</i>"
+    # --- Lógica de Precisión de Nombre (Motor MPRIS) ---
+    # Intentamos obtener el nombre real registrado en el bus MPRIS
+    APP_NAME=$(playerctl -p "$PLAYER" metadata | grep "identity" | cut -d' ' -f3- || echo "$PLAYER" | cut -d. -f1)
+
+    # Limpieza estética para Plasma Integration
+    if [[ "$PLAYER" == *"plasma-browser-integration"* ]]; then
+        APP_NAME="Web Browser"
+    fi
+    # --------------------------------------------------
+
+    # Formatear la línea de información
+    INFO_TEXT="<i>${ARTIST:-"Unknown Artist"}</i>"
     if [ -n "$ALBUM" ]; then
         INFO_TEXT="$INFO_TEXT\n<span size='small'>󰀥 $ALBUM</span>"
     fi
 
-    # Calcular progreso y etiquetas
+    # Calcular progreso
     if [ -n "$LENGTH" ] && [ "$LENGTH" -gt 0 ] && [ -n "$POSITION" ]; then
         PROGRESS=$(( POSITION * 100 / LENGTH ))
         TIME_NOW=$(format_time "$POSITION")
@@ -57,15 +67,8 @@ for PLAYER in $PLAYERS; do
         TIME_TAG=""
     fi
 
-    # Nombre estético de la App
-    if [[ "$PLAYER" == *"plasma-browser-integration"* ]]; then
-        APP_NAME="Web Browser"
-    else
-        APP_NAME=$(echo "$PLAYER" | cut -d. -f1 | sed 's/./\U&/')
-    fi
-
-    # ID Único
-    ID_NUM=$(echo "$PLAYER" | cksum | cut -d ' ' -f 1)
+    # ID Único basado en el nombre del reproductor
+    ID_NUM=$(echo "$PLAYER" | cksum | awk '{print $1 % 2147483647}')
 
     # Gestionar Carátula
     CLEAN_PLAYER=$(echo "$PLAYER" | tr -d '.')
@@ -83,11 +86,25 @@ for PLAYER in $PLAYERS; do
         FINAL_ICON="audio-x-generic"
     fi
 
-    # Notificar a SwayNC
-    notify-send -a "Media: $APP_NAME" \
-                -i "$FINAL_ICON" \
-                -r "$ID_NUM" \
-                -h int:value:"$PROGRESS" \
-                "$STATUS: $TITLE" \
-                "$INFO_TEXT$TIME_TAG"
+    # Notificar a SwayNC con el nuevo motor de nombres
+    # Notificar a SwayNC con botones (acciones) en segundo plano
+    (
+        # Capturamos la acción en la variable ACTION
+        ACTION=$(notify-send -a "Media: $APP_NAME" \
+                    -i "$FINAL_ICON" \
+                    -r "$ID_NUM" \
+                    -h int:value:"$PROGRESS" \
+                    --action="prev=⏮" \
+                    --action="playpause=" \
+                    --action="next=⏭" \
+                    "$STATUS: $TITLE" \
+                    "$INFO_TEXT$TIME_TAG")
+
+        # Dependiendo del botón presionado, controlamos el reproductor
+        case "$ACTION" in
+            "prev") playerctl -p "$PLAYER" previous ;;
+            "playpause") playerctl -p "$PLAYER" play-pause ;;
+            "next") playerctl -p "$PLAYER" next ;;
+        esac
+    ) &
 done

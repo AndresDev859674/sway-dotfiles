@@ -3,6 +3,8 @@ exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CU
 exec hash dbus-update-activation-environment 2>/dev/null && \
 dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 
+exec swayosd-server --style ~/.config/swayosd/style.css
+
 # output VGA-1 mode 1440x900@74.984Hz
 
 include ~/.config/sway/outputs
@@ -13,12 +15,14 @@ include ~/.config/sway/workspaces.conf
 input * xkb_numlock enabled
 # Elimina esto si prefieres
 
+exec rm -f /tmp/sovpipe && mkfifo /tmp/sovpipe && tail -f /tmp/sovpipe | sov -t 500
+
 ### Variables de entorno y Modificador
 set $mod Mod4
 set $refresh_i3status killall -SIGUSR1 i3status
 
 ### Estética de Ventanas
-default_border normal 2
+default_border pixel 2
 title_align center
 
 # Formato: class             border    backgr.   text    indicator child_border
@@ -61,11 +65,18 @@ bindsym $mod+b exec --no-startup-id ~/.config/i3/toggle_bar.sh
 bindsym Print       exec --no-startup-id ~/.config/i3/scripts/screenshot.sh full
 bindsym Shift+Print exec --no-startup-id ~/.config/i3/scripts/screenshot.sh select
 
-### Control de Audio (amixer funciona, pero pactl es más nativo en Wayland)
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%-
-bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+# --- Configuración de Volumen Universal con swayosd ---
+
+# SUBIR VOLUMEN
+bindsym $mod+plus exec swayosd-client --output-volume +5 --max-volume 255
+bindsym $mod+KP_Add exec swayosd-client --output-volume +5 --max-volume 255
+
+# BAJAR VOLUMEN
+bindsym $mod+minus exec swayosd-client --output-volume -5 --max-volume 255
+bindsym $mod+KP_Subtract exec swayosd-client --output-volume -5 --max-volume 255
+
+# SILENCIAR
+bindsym $mod+m exec swayosd-client --output-volume mute-toggle
 
 ### Gestión de Ventanas y Movimiento [cite: 15, 17]
 floating_modifier $mod
@@ -95,7 +106,7 @@ bindsym $mod+mod1+space floating toggle
 bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
-### Workspaces [cite: 20, 21]
+## Workspaces [cite: 20, 21]
 set $ws1 "1: "
 set $ws2 "2: "
 set $ws3 "3: "
@@ -107,16 +118,27 @@ set $ws8 "8: 󰎚"
 set $ws9 "9: 󰎝"
 set $ws10 "10: 󰎠"
 
-bindsym $mod+1 workspace number $ws1
-bindsym $mod+2 workspace number $ws2
-bindsym $mod+3 workspace number $ws3
-bindsym $mod+4 workspace number $ws4
-bindsym $mod+5 workspace number $ws5
-bindsym $mod+6 workspace number $ws6
-bindsym $mod+7 workspace number $ws7
-bindsym $mod+8 workspace number $ws8
-bindsym $mod+9 workspace number $ws9
-bindsym $mod+0 workspace number $ws10
+bindsym --no-repeat $mod+1 workspace number $ws1; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+2 workspace number $ws2; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+3 workspace number $ws3; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+4 workspace number $ws4; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+5 workspace number $ws5; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+6 workspace number $ws6; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+7 workspace number $ws7; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+8 workspace number $ws8; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+9 workspace number $ws9; exec "echo 1 > /tmp/sovpipe"
+bindsym --no-repeat $mod+0 workspace number $ws10; exec "echo 1 > /tmp/sovpipe"
+
+bindsym --release $mod+1 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+2 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+3 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+4 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+5 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+6 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+7 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+8 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+9 exec "echo 0 > /tmp/sovpipe"
+bindsym --release $mod+0 exec "echo 0 > /tmp/sovpipe"
 
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
@@ -146,10 +168,10 @@ bindsym $mod+r mode "resize"
 
 bindsym Control+Mod4+Delete exec wlogout
 
-exec_always pkill -x autotiling; autotiling -w 1 3 5 7 9
-# Sistema de optimizacion para Autotiling, no se pero me lleno 6gb de ram,una locura de verdad
+exec ~/.config/i3/scripts/clean_procs.sh
 
-exec_always pkill -x sway-check-zomb; ~/.config/i3/scripts/sway-check-zombie.sh
+exec_always ~/.config/i3/scripts/sway-check-zombie.sh
+exec_always autotiling -w 1 3 5 7 9
 
 exec swaync
 
@@ -183,6 +205,8 @@ bindsym Control+mod1+g exec pkill -x gammastep && notify-send "Night Mode Killed
 
 bindsym Control+Mod4+s exec ~/.config/i3/scripts/selector-chars.sh
 
+gaps inner 10
+
 ### Barra de Estado [cite: 26, 27]
 bar {
     status_command i3status-rs ~/.config/i3status-rust/config.toml
@@ -204,8 +228,8 @@ corner_radius 10
 
 # --- Sombras ---
 shadows enable
-shadow_blur_radius 20
-shadow_color #0000007F
+shadow_blur_radius 10
+shadow_color #123456AA
 
 # --- Difuminado (Blur) ---
  blur enable
@@ -228,5 +252,5 @@ layer_effects "rofi" {
 
 for_window [app_id="UNDERTALE"] floating enable
 for_window [app_id="Main"] floating enable, blur disable
-for_window [app_id="steam"] blur disable
+for_window [app_id="steam"] floating enable, border none
 for_window [app_id="wlogout"] floating enable, border none, sticky enable
