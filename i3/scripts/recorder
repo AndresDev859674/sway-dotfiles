@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# Dependencies: wf-recorder, rofi-wayland, slurp, libnotify, yad, pulseaudio-utils, ffmpeg
+
+# --- 1. Toggle Logic (Stop if running) ---
+if pgrep -x "wf-recorder" > /dev/null || pgrep -x "ffmpeg" | grep -v "grep" > /dev/null; then
+    pkill -INT -x "wf-recorder"
+    pkill -INT -x "ffmpeg"
+    exit 0
+fi
+
+# --- 2. Main Mode Selection ---
+MODE_TYPE=$(echo -e "Video + Audio\nOnly Audio" | rofi -dmenu -i -p "🎙️ Select Mode:" -lines 2)
+[ -z "$MODE_TYPE" ] && exit 0
+
+# --- 3. Directory Selection ---
+DIR_CHOICE=$(echo -e "Videos/Recordings\nHome (~/)" | rofi -dmenu -i -p "📂 Save to:" -lines 2)
+if [ "$DIR_CHOICE" == "Videos/Recordings" ]; then
+    DIR="$HOME/Videos/Recordings"
+else
+    DIR="$HOME"
+fi
+mkdir -p "$DIR"
+
+# --- 4. Format and Audio Logic ---
+if [ "$MODE_TYPE" == "Video + Audio" ]; then
+    FORMAT=$(echo -e "mp4\nmkv\nwebm\ngif\nmov" | rofi -dmenu -i -p "🎥 Video Format:" -lines 5)
+    [ -z "$FORMAT" ] && exit 0
+
+    # Only ask for audio if it is NOT a GIF
+    if [ "$FORMAT" != "gif" ]; then
+        AUDIO_CHOICE=$(echo -e "System Audio (Default)\nMicrophone\nNo Audio" | rofi -dmenu -i -p "🔊 Audio Input:" -lines 3)
+    else
+        AUDIO_CHOICE="No Audio"
+    fi
+
+    FPS_CHOICE=$(echo -e "Auto\n60 FPS\n30 FPS\n15 FPS" | rofi -dmenu -i -p "🎞️ Framerate:" -lines 4)
+    [ -z "$FPS_CHOICE" ] && exit 0
+
+    MODES="Native (Fullscreen)\nSelect Area (slurp)\nScale to 1080p\nScale to 720p"
+    RESOLUTION=$(echo -e "$MODES" | rofi -dmenu -i -p "🖥️ Mode:" -lines 4)
+    [ -z "$RESOLUTION" ] && exit 0
+else
+    FORMAT=$(echo -e "mp3\nwav\nflac\nogg" | rofi -dmenu -i -p "🎵 Audio Format:" -lines 4)
+    [ -z "$FORMAT" ] && exit 0
+fi
+
+# --- 5. Command Construction ---
+TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
+FILE="$DIR/rec_${TIMESTAMP}.$FORMAT"
+MIC_DEVICE=$(pactl get-default-source)
+SINK_DEVICE=$(pactl get-default-sink).monitor
+
+if [ "$MODE_TYPE" == "Video + Audio" ]; then
+    # BASE COMMAND LOGIC
+    if [ "$FORMAT" == "gif" ]; then
+        # GIF needs specific codec, no h264 flags
+        CMD="wf-recorder -c gif -f $FILE"
+    else
+        # Standard video (mp4, mkv, etc)
+        CMD="wf-recorder -c libx264 -f $FILE -p crf=20 -p preset=superfast -p tune=zerolatency"
+        [ "$FORMAT" == "mp4" ] && CMD="$CMD -p pixel_format=yuv420p"
+    fi
+
+    # Add FPS Logic
+    # If it's a GIF, we enforce 15 FPS to prevent slow-motion issues and massive file sizes
+    if [ "$FORMAT" == "gif" ]; then
+        CMD="$CMD -r 24"
+    else
+        case "$FPS_CHOICE" in
+            "60 FPS") CMD="$CMD -r 60" ;;
+            "30 FPS") CMD="$CMD -r 30" ;;
+            "15 FPS") CMD="$CMD -r 15" ;;
+        esac
+    fi
+
+    # Add Audio (Only if not GIF)
+    if [ "$FORMAT" != "gif" ]; then
+        case "$AUDIO_CHOICE" in
+            "Microphone") CMD="$CMD --audio=$MIC_DEVICE" ;;
+            "System Audio (Default)") CMD="$CMD --audio=$SINK_DEVICE" ;;
+        esac
+    fi
+
+    # Add Resolution
+    case "$RESOLUTION" in
+        "Select Area (slurp)")
+            AREA=$(slurp)
+            [ -z "$AREA" ] && exit 0
+            CMD="$CMD -g \"$AREA\"" ;;
+        "Scale to 1080p") CMD="$CMD --filter scale=1920:1080" ;;
+        "Scale to 720p") CMD="$CMD --filter scale=1280:720" ;;
+    esac
+else
+    # FFMPEG Audio Only
+    AUDIO_SOURCE=$(echo -e "System Audio (Default)\nMicrophone" | rofi -dmenu -i -p "🔊 Source:" -lines 2)
+    [ -z "$AUDIO_SOURCE" ] && exit 0
+    case "$AUDIO_SOURCE" in
+        "Microphone") SOURCE="$MIC_DEVICE" ;;
+        *) SOURCE="$SINK_DEVICE" ;;
+    esac
+    CMD="ffmpeg -f pulse -i $SOURCE $FILE"
+fi
+
+# --- 6. Execution & Tray Icon ---
+notify-send -u low "Recording Started" "Format: $FORMAT\nFile: $(basename $FILE)"
+
+eval "$CMD" &
+REC_PID=$!
+
+if command -v yad &> /dev/null; then
+    GDK_BACKEND=x11 yad --notification \
+        --image="media-record" \
+        --text="Recording in progress. Click to stop." \
+        --command="kill -INT $REC_PID" &
+    YAD_PID=$!
+    wait $REC_PID
+    kill $YAD_PID 2>/dev/null
+else
+    wait $REC_PID
+fi
+
+# --- 7. Final Notification ---
+ACTION=$(notify-send "Recording Finished" "File: $(basename $FILE)\nClick to open." \
+    --icon="media-playback-start" \
+    --action="open=Open File" \
+    --action="folder=Show in Folder")
+
+case "$ACTION" in
+    "open") xdg-open "$FILE" ;;
+    "folder") xdg-open "$DIR" ;;
+esac

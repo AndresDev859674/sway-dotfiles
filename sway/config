@@ -4,6 +4,7 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 
 exec swayosd-server --style ~/.config/swayosd/style.css
+exec XDG_MENU_PREFIX=plasma- kbuildsycoca6
 
 # output VGA-1 mode 1440x900@74.984Hz
 
@@ -20,6 +21,8 @@ exec rm -f /tmp/sovpipe && mkfifo /tmp/sovpipe && tail -f /tmp/sovpipe | sov -t 
 ### Variables de entorno y Modificador
 set $mod Mod4
 set $refresh_i3status killall -SIGUSR1 i3status
+
+exec swaycons
 
 ### Estética de Ventanas
 default_border pixel 2
@@ -62,6 +65,7 @@ bindsym $mod+mod1+c exec --no-startup-id ~/.config/i3/toggle_color.sh
 bindsym $mod+b exec --no-startup-id ~/.config/i3/toggle_bar.sh
 
 # Capturas de pantalla (grim/slurp son recomendados en Sway en lugar de flameshot)
+bindsym Control+Print       exec --no-startup-id ~/.config/i3/scripts/recorder
 bindsym Print       exec --no-startup-id ~/.config/i3/scripts/screenshot.sh full
 bindsym Shift+Print exec --no-startup-id ~/.config/i3/scripts/screenshot.sh select
 
@@ -77,6 +81,10 @@ bindsym $mod+KP_Subtract exec swayosd-client --output-volume -5 --max-volume 255
 
 # SILENCIAR
 bindsym $mod+m exec swayosd-client --output-volume mute-toggle
+
+# Brightness controls
+bindsym --locked XF86MonBrightnessUp exec brightnessctl s +5%
+bindsym --locked XF86MonBrightnessDown exec brightnessctl s 5%-
 
 ### Gestión de Ventanas y Movimiento [cite: 15, 17]
 floating_modifier $mod
@@ -199,7 +207,7 @@ bindsym Control+mod1+t exec ~/.config/i3/scripts/calendar.sh
 exec ~/.config/i3/scripts/holiday_nag.sh
 # Modo nocturno
 # Agendar el cambio de temperatura a las 7 PM al iniciar Sway
-exec_always gammastep -l 40.4:-3.7 -t 6500:3500 -s 19:00 -S 07:00
+exec_always gammastep -l 40.4:-3.7 -t 6500:3500 19:00 07:00
 # Tecla para Desativar
 bindsym Control+mod1+g exec pkill -x gammastep && notify-send "Night Mode Killed" "Now you can use the desktop with the normal"
 
@@ -220,6 +228,10 @@ bar {
         active_workspace   #fbf1c7 #123456 #282828
         inactive_workspace #123456 #123456 #abcdef
         urgent_workspace #ff5555 #ff5555 #ffffff
+    }
+
+    tray {
+        bindsym BTN_RIGHT ContextMenu
     }
 }
 
@@ -252,5 +264,5 @@ layer_effects "rofi" {
 
 for_window [app_id="UNDERTALE"] floating enable
 for_window [app_id="Main"] floating enable, blur disable
-for_window [app_id="steam"] floating enable, border none
+for_window [app_id="steam"] border none
 for_window [app_id="wlogout"] floating enable, border none, sticky enable

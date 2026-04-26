@@ -46,16 +46,16 @@ First install the Dependencies, and make sure you are en KDE, i recommend this D
 ## Dependencies
 Only tested in **Arch linux**, in **CachyOS** and **EndeavourOS** should work, If you are another distro, install the dependencies that are here
 ```bash
-swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync swayosd waybar
+swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync swayosd waybar wf-recorder slurp libnotify yad pulseaudio-utils ffmpeg
 ```
 ### Arch linux
 Pacman Dependencies
 ```bash
-sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu autotiling awww ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync waybar
+sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu autotiling awww ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync waybar wf-recorder slurp libnotify yad pulseaudio-utils ffmpeg
 ```
 AUR Dependencies
 ```bash
-yay -S swayfx bemoji wlogout tofi swayosd
+yay -S swayfx bemoji wlogout tofi swayosd swaycons
 ```
 
 ## Clone the Repo
@@ -161,12 +161,14 @@ arrow {
 }
 ```
 
-### qt6ct
-If you want dark in qt and another things, put this in `~/.bash_profile`, **make sure if you have installed qt6ct** but i recommend qt6ct-kde For KDE apps and another things..
+### qt6ct & qt5ct
+If you want dark in qt and another things, put this in `~/.bash_profile`, **make sure if you have installed qt6ct and qt5ct** but i recommend for qt6ct, qt6ct-kde For KDE apps and another things..
 
 ```bash
 if [[ "$XDG_CURRENT_DESKTOP" =~ "sway:wlroots:swayfx" ]]; then
   export QT_QPA_PLATFORMTHEME=qt6ct
+  export QT_QPA_PLATFORM=wayland
+  export QT_QPA_PLATFORMTHEME=qt5ct
 fi
 ```
 
