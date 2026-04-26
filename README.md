@@ -116,7 +116,7 @@ swaybar_command waybar
 in the bar in the config
 
 ### gtk-3.0
-If you want the tray colors to match the Waybar colors, put this in `~/.config/gtk-3.0/gtk.css`, or copy the gtk-3.0 from the repo
+If you want the tray colors to match the Waybar colors, put this in `~/.config/gtk-3.0/gtk.css`, or copy the gtk-3.0 from the repo, But remember, This will affect **all** gtk apps, but no all the Users
 
 ```css
 menu,
