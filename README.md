@@ -162,7 +162,7 @@ arrow {
 ```
 
 ### qt6ct
-If you want dark in qt and another things, put this in `~/.bash_profile`, **make sure if you have installed qt6ct**
+If you want dark in qt and another things, put this in `~/.bash_profile`, **make sure if you have installed qt6ct** but i recommend qt6ct-kde For KDE apps and another things..
 
 ```bash
 if [[ "$XDG_CURRENT_DESKTOP" =~ "sway:wlroots:swayfx" ]]; then
