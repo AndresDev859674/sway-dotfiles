@@ -1,0 +1,144 @@
+/* Variables de Color */
+@define-color bg_transparent rgba(0, 0, 0, 0); /* Transparencia total para la barra */
+@define-color bg_module rgba(30, 30, 46, 0.9);  /* Catppuccin Mocha Base con transparencia */
+@define-color fg_color #cdd6f4;                /* Catppuccin Mocha Text */
+@define-color accent_blue #89b4fa;             /* Catppuccin Mocha Blue */
+@define-color accent_blue_dim rgba(137, 180, 250, 0.2);
+@define-color urgent #f38ba8;                  /* Catppuccin Mocha Red */
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+}
+
+/* 1. La ventana principal ahora es invisible */
+window#waybar {
+    background-color: @bg_transparent;
+    color: @fg_color;
+}
+
+/* 2. Estilo base para crear el efecto de "Burbuja" */
+/* Aplicamos esto a todos los módulos que queremos que floten */
+#workspaces,
+#mode,
+#window,
+#mpris,
+#custom-cava,
+#disk,
+#cpu,
+#memory,
+#pulseaudio,
+#clock,
+#tray,
+#custom-power,
+#custom-config,
+#custom-panel {
+background-color: @bg_module;
+margin: 5px 4px; /* Margen arriba/abajo y a los lados para separar */
+padding: 0 12px;
+border-radius: 15px; /* Bordes muy redondeados para estilo cápsula */
+border: 1px solid rgba(137, 180, 250, 0.1); /* Borde sutil basado en accent_blue */
+}
+
+/* Tooltips */
+tooltip {
+    background: #181825; /* Catppuccin Mocha Mantle */
+    border: 1px solid @accent_blue;
+    border-radius: 10px;
+}
+
+/* --- Ajustes específicos para módulos --- */
+
+/* Workspaces: Quitamos el fondo interno para que no choque con la burbuja */
+#workspaces {
+padding: 0 5px;
+}
+
+#workspaces button {
+padding: 0 8px;
+color: @fg_color;
+margin: 4px 2px;
+border-radius: 10px;
+transition: all 0.2s ease-in-out;
+}
+
+#workspaces button.focused {
+background-color: @accent_blue;
+color: #11111b; /* Catppuccin Mocha Crust para contraste */
+}
+
+#workspaces button.urgent {
+background-color: @urgent;
+color: #11111b;
+}
+
+/* Mpris (Música) - Lo destacamos con el color acento */
+#mpris {
+background-color: @accent_blue;
+color: #11111b;
+}
+
+#mpris.paused {
+background-color: @bg_module;
+color: @fg_color;
+}
+
+/* Colores de iconos en el sistema */
+#disk { color: #cba6f7; }       /* Catppuccin Mocha Mauve */
+#cpu { color: #89dceb; }        /* Catppuccin Mocha Sky */
+#memory { color: #a6e3a1; }     /* Catppuccin Mocha Green */
+#pulseaudio { color: #f9e2af; } /* Catppuccin Mocha Yellow */
+
+/* Reloj */
+#clock {
+color: @accent_blue;
+}
+
+/* Botones Custom (Power, Config, Panel) */
+#custom-power {
+color: @urgent;
+margin-right: 10px; /* Un poco más de espacio al final */
+}
+
+#custom-config, #custom-panel {
+color: #fab387; /* Catppuccin Mocha Peach */
+}
+
+/* Animación Cava */
+#custom-cava.Playing {
+background: linear-gradient(45deg, @accent_blue, #cba6f7);
+color: #11111b;
+}
+
+/* --- Estados de Alerta para CPU y RAM --- */
+
+/* Cuando el CPU llega a 75% o más */
+#cpu.warning,
+#memory.warning {
+background-color: @urgent; /* Usamos el color rojo/rosa que ya tenías definido */
+color: #11111b;            /* Texto oscuro para contraste */
+}
+
+/* Cuando están en nivel Crítico (definido en el json) */
+#cpu.critical,
+#memory.critical {
+background-color: #f38ba8; /* Rojo Mocha */
+color: #ffffff;            /* Blanco */
+/* Opcional: un efecto de parpadeo para que lo notes sí o sí */
+animation-name: blink;
+animation-duration: 0.5s;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+animation-direction: alternate;
+}
+
+/* Definición de la animación de parpadeo */
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #f38ba8;
+    }
+}
