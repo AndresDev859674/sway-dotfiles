@@ -201,6 +201,10 @@ fi
    
    Using only Shell files for menus, i3status-rust for the bar blocks, and others, we use Shell because it is efficient and more convenient.
 
+8. **Where's the installer script?**
+   
+   No boy, There's No installer script, just wait, coming soon!
+
 # Credits    
 newmanls for the Themes collection
 
