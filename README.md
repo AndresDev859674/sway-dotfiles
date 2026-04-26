@@ -203,7 +203,7 @@ fi
 
 8. **Where's the installer script?**
    
-   No boy, There's No installer script, just wait, coming soon!
+   No, in this Time, There's No installer script :( BUT just wait!, coming soon!
 
 # Credits    
 newmanls for the Themes collection
