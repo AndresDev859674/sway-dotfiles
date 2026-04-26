@@ -1,0 +1,22 @@
+general {
+    colors = true
+    interval = 5
+}
+
+order += "tztime local"
+order += "memory"
+order += "cpu_usage"
+
+memory {
+    format = "MEM %used/%total"
+    threshold_degraded = "10%"
+    format_degraded = "MEMORY LOW < %available"
+}
+
+cpu_usage {
+    format = "CPU %usage"
+}
+
+tztime local {
+    format = "%Y-%m-%d %H:%M:%S"
+}

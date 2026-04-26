@@ -1,0 +1,28 @@
+general {
+    colors = true
+    interval = 5
+}
+
+order += "disk /"
+order += "memory"
+order += "cpu_usage"
+# i3status no maneja volumen ni scripts personalizados fácilmente
+order += "tztime local"
+
+disk "/" {
+    format = "HOME %avail"
+}
+
+memory {
+    format = "MEM %used/%total"
+    threshold_degraded = "10%"
+    format_degraded = "MEMORY LOW < %available"
+}
+
+cpu_usage {
+    format = "CPU %usage"
+}
+
+tztime local {
+    format = "%Y-%m-%d %H:%M:%S"
+}
