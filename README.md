@@ -46,12 +46,12 @@ First install the Dependencies, and make sure you are en KDE, i recommend this D
 ## Dependencies
 Only tested in **Arch linux**, in **CachyOS** and **EndeavourOS** should work, If you are another distro, install the dependencies that are here
 ```bash
-swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync swayosd waybar wf-recorder slurp libnotify yad pulseaudio-utils ffmpeg
+swayidle swaylock dex network-manager-applet alacritty rofi i3status-rust wlogout dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils swayfx autotiling awww bemoji dmenu tofi ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync swayosd waybar wf-recorder yad pulseaudio-utils ffmpeg
 ```
 ### Arch linux
 Pacman Dependencies
 ```bash
-sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu autotiling awww ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync waybar wf-recorder slurp libnotify yad pulseaudio-utils ffmpeg
+sudo pacman -S swayidle swaylock dex network-manager-applet alacritty i3status-rust dunst gammastep ttf-jetbrains-mono-nerd wl-clipboard grim slurp libnotify alsa-utils dmenu autotiling awww ttf-font-awesome playerctl pavucontrol btop nwg-displays swaync waybar wf-recorder yad pulseaudio-utils ffmpeg
 ```
 AUR Dependencies
 ```bash
