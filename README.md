@@ -183,7 +183,7 @@ fi
 
 3. **Stability?**
    
-   I'm focusing on that, but on my personal system, my dotfiles seem to be quite stable. The errors could be from your Linux system or packages.
+   I'm focusing on that, but on my personal system, my dotfiles seem to be quite stable. The errors could be from your Linux system or packages. Like SwayFX
 
 4. **It's actually focused on performance?**
    
